@@ -42,7 +42,7 @@ sleepDrive <- function(R1b, Psi){
     warning("sleepDrive not implemented")
 }
 
-circadianModel(t, x, params){
+circadianModel <- function(t, x, params){
     # State variables
     R <- x[1]
     Psi <- x[2]
