@@ -1,6 +1,6 @@
 # Here we will have all the functions related to the circadian model
-# We will be implementing Hannay's 2019 single population model just like
-# you have in your code
+# We will be implementing Hannay's 2019 single population model plus
+# the sleep drive model, just like you have in your code
 
 # Model parameters
 # TODO: add parameters
