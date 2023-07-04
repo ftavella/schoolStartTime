@@ -178,7 +178,28 @@ circadianModel <- function(t, x, params){
   
    allSchoolStartOptions <- c(5, 6, 7, 8, 9, 10)
    sleepDurationSchool <- c()
+   
+    
+   for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
+    allLux <<- -1 + numeric(numberOfDays * 24 / dt + 1)  # Sanity check vector to make sure we're getting the right lux
+    
+    out <- rk4(ic, fullIntegrationWindow, sleep.circ.model, parms)
+    
+    
+    homeostatLastWeek <- tail(out[,4], 24 * 7 / dt)
+    homeostatDiff <- diff(homeostatLastWeek)
+   # cat(sprintf("Wake time for school: %f\n", schoolStartLocalTimeInHours))
+    avgSleep <- (24 * length(homeostatDiff[homeostatDiff < 0])/length(homeostatDiff))
+   # cat(sprintf("Average sleep on this schedule over a week: %f\n", avgSleep))
+    
+    homeostatLastWeekDiff <- head(homeostatDiff, 24 * 5 / dt)
+    avgSleepSchool <- (24 * length(homeostatLastWeekDiff[homeostatLastWeekDiff < 0])/length(homeostatLastWeekDiff))
+   # cat(sprintf("Average sleep during school schedule over a week: %f\n", avgSleepSchool))
+    sleepDurationSchool <- append(sleepDurationSchool, avgSleepSchool)
+    homeostatFirstWeek <- head(out[,4], 24 * 7 / dt)
+    homeostatToPrint <- homeostatLastWeek
 
+    return(sleepDurationSchool)
   
 }
 
