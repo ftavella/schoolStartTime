@@ -183,7 +183,7 @@ circadianModel <- function(t, x, params){
    for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
     allLux <<- -1 + numeric(numberOfDays * 24 / dt + 1)  # Sanity check vector to make sure we're getting the right lux
     
-    out <- rk4(ic, fullIntegrationWindow, sleep.circ.model, parms)
+    out <- rk4(x, fullIntegrationWindow, sleep.circ.model, params)
     
     
     homeostatLastWeek <- tail(out[,4], 24 * 7 / dt)
