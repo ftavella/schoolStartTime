@@ -165,6 +165,20 @@ circadianModel <- function(t, x, params){
     # Return results as a list
     list(dxdt)
     
-    warning("circadianModel not implemented")
+   # warning("circadianModel not implemented")
+    numberOfDays <- 49
+    dt<- 0.1
+    fullIntegrationWindow <- seq(from=0,to=numberOfDays * 24,by=dt)
+  
+    isAwake <- TRUE
+   schoolStartLocalTimeInHours <- 6  # This is the start time for the school
+   schoolDurationInHours <- 7  # This is the duration of the school day
+   schoolBrightnessInLux <- 300  # This is the brightness of the school
+  
+  
+   allSchoolStartOptions <- c(5, 6, 7, 8, 9, 10)
+   sleepDurationSchool <- c()
+
+  
 }
 
