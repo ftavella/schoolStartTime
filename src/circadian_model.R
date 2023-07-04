@@ -46,14 +46,14 @@ alpha <- function(light){
     # TODO
     return (alpha0 * pow(light, P) / (pow(light, P) + I0))
     
-    warning("alpha not implemented")
+   # warning("alpha not implemented")
 }
 
 bHat <- function(n, light){
     # TODO
     return (G * (1.0 - n) * alpha(light))
     
-    warning("Bhat not implemented")
+  #  warning("Bhat not implemented")
 }
 
 phaseResponse <- function(R, Psi){
@@ -62,7 +62,7 @@ phaseResponse <- function(R, Psi){
     secondTerm <- A2 * 0.5 * (1.0 + pow(R, 8)) + sin(2.0 * Psi + BetaL2)
     return (Sigma - firstTerm - secondTerm)
     
-    warning("phaseResponse not implemented")
+#    warning("phaseResponse not implemented")
 }
 
 amplitudeResponse <- function(R, Psi){
@@ -71,7 +71,7 @@ amplitudeResponse <- function(R, Psi){
     secondTerm <- A2 * 0.5 * R * (1.0 - pow(R, 8) * cos(2.0 * Psi + BetaL2)
     return(firstTerm + secondTerm)
                                   
-    warning("amplitudeResponse not implemented")
+  #  warning("amplitudeResponse not implemented")
 }
 
 sleepDrive <- function(R1b, Psi){
@@ -79,7 +79,7 @@ sleepDrive <- function(R1b, Psi){
     return(R1b - 3.25 * cos(Psi))
     # R1b - 3.25 * 0.5 * (1 + 0.8*sin(Psi) - 0.47*cos(Psi))
     
-    warning("sleepDrive not implemented")
+  #  warning("sleepDrive not implemented")
 }
 
 circadianModel <- function(t, x, params){
