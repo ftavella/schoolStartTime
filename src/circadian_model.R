@@ -68,7 +68,7 @@ phaseResponse <- function(R, Psi){
 amplitudeResponse <- function(R, Psi){
     # TODO: Output the right hand side of dR/dt = ...
     firstTerm <- A1 * 0.5 * (1.0 - pow(R, 4)) * cos(Psi + BetaL1)
-    secondTerm <- A2 * 0.5 * R * (1.0 - pow(R, 8) * cos(2.0 * Psi + BetaL2)
+    secondTerm <- A2 * 0.5 * R * (1.0 - pow(R, 8)) * cos(2.0 * Psi + BetaL2)
     return(firstTerm + secondTerm)
                                   
   #  warning("amplitudeResponse not implemented")
@@ -200,6 +200,7 @@ circadianModel <- function(t, x, params){
     homeostatToPrint <- homeostatLastWeek
 
     return(sleepDurationSchool)
+     }
   
 }
 
