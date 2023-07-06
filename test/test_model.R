@@ -42,6 +42,7 @@ for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
  }
 
 #myVec <- circadianRhythm(sleepy, default_initial_conditions, params)
+sleepDurationSchool <- sort(sleepDurationSchool, deccreasing = FALSE)
 
 for (condition in default_initial_conditions) {
    
