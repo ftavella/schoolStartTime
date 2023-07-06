@@ -35,6 +35,10 @@ circadianParameters <- c(Irecep, Targc, Tau, Beta1, A1, A2, BetaL1, BetaL2, Sigm
 # ...
 default_initial_conditions <- c(R=0.8240484019863923, Psi=2.4532409247791804, n=0.78424752754260862, A=767.657, R1tot=584.24)
 
+chiAwake <- 1.0/18.18
+muAwake <- 869.5
+chiAsleep <- 1.0/7.0
+muAsleep <- 596.5
 
 pow <- function(a, p) {
   a ** p 
@@ -116,14 +120,14 @@ circadianModel <- function(t, x, params){
     # Set mu and ichi parameters based on whether student is awake or not
      
     if (isAwake) {
-      ichi <- 1.0/18.18
-      mu <- 869.5
+      ichi <- chiAwake
+      mu <- muAwake
       if (light < baselineLight) { # Set light to baselineLight if they're awake and it's dark outside
         light <- baselineLight
       }
     } else {
-      ichi <- 1.0/7.0  # Originally 1.0/4.2
-      mu <- 596.5 
+      ichi <- chiAsleep  # Originally 1.0/4.2
+      mu <- muAsleep
       light <- 0  # Set light to 0 if they're asleep
     }
 
