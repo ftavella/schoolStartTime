@@ -33,7 +33,7 @@ circadianParameters <- c(Irecep, Targc, Tau, Beta1, A1, A2, BetaL1, BetaL2, Sigm
 # Model initial conditions
 # TODO: add initial conditions
 # ...
-initial_conditions <- c(R=0.8240484019863923, Psi=2.4532409247791804, n=0.78424752754260862, A=767.657, R1tot=584.24)
+default_initial_conditions <- c(R=0.8240484019863923, Psi=2.4532409247791804, n=0.78424752754260862, A=767.657, R1tot=584.24)
 
 
 pow <- function(a, p) {
