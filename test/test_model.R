@@ -2,7 +2,7 @@
 
 source(file.path("circadianRhythm.R"), local = TRUE)$value
 
-circadianRhythm(9,default_initial_conditions,params)
+#circadianRhythm(9,default_initial_conditions,params)
 
 numberOfDays <- 49
 dt<- 0.1
