@@ -41,15 +41,14 @@ for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
    # return(sleepDurationSchool)
  }
 
-for (sleepy in sleepDurationSchool) {
-   circadianRhythm(sleepy, default_initial_conditions, params)
-   plot(sleepy, allLux)
-   plot(sleepy, default_initial_conditions[1])
-   plot(sleepy, default_initial_conditions[2])
-   plot(sleepy, default_initial_conditions[3])
-   plot(sleepy, default_inital_conditions[4])
-   plot(sleepy, default_initial_conditions[5])
-   
+#myVec <- circadianRhythm(sleepy, default_initial_conditions, params)
 
-}
+for (condition in default_initial_conditions) {
+   
+   plot(sleepDurationSchool, condition)
+   # warning: an error is likely bc 'condition' is a variable that represents the y-coordinate but isn't a vector
+   warning("Error - unable to plot....")
+
+  
+ }
 
