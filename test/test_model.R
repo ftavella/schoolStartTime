@@ -38,14 +38,17 @@ for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
     homeostatFirstWeek <- head(out[,4], 24 * 7 / dt)
     homeostatToPrint <- homeostatLastWeek
 
-    return(sleepDurationSchool)
+   # return(sleepDurationSchool)
  }
 
 for (sleepy in sleepDurationSchool) {
    circadianRhythm(sleepy, default_initial_conditions, params)
-   for (circ in circadianRhythm) { 
-     plot(sleepy, circ)
-   }
+   plot(sleepy, allLux)
+   plot(sleepy, default_initial_conditions[1])
+   plot(sleepy, default_initial_conditions[2])
+   plot(sleepy, default_initial_conditions[3])
+   plot(sleepy, default_inital_conditions[4])
+   plot(sleepy, default_initial_conditions[5])
    
 
 }
