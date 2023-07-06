@@ -45,15 +45,13 @@ pow <- function(a, p) {
 alpha <- function(light){
     # TODO
     return (alpha0 * pow(light, P) / (pow(light, P) + I0))
-    
-   # warning("alpha not implemented")
+  
 }
 
 bHat <- function(n, light){
     # TODO
     return (G * (1.0 - n) * alpha(light))
     
-  #  warning("Bhat not implemented")
 }
 
 phaseResponse <- function(R, Psi){
@@ -62,7 +60,6 @@ phaseResponse <- function(R, Psi){
     secondTerm <- A2 * 0.5 * (1.0 + pow(R, 8)) + sin(2.0 * Psi + BetaL2)
     return (Sigma - firstTerm - secondTerm)
     
-#    warning("phaseResponse not implemented")
 }
 
 amplitudeResponse <- function(R, Psi){
@@ -71,7 +68,6 @@ amplitudeResponse <- function(R, Psi){
     secondTerm <- A2 * 0.5 * R * (1.0 - pow(R, 8)) * cos(2.0 * Psi + BetaL2)
     return(firstTerm + secondTerm)
                                   
-  #  warning("amplitudeResponse not implemented")
 }
 
 sleepDrive <- function(R1b, Psi){
@@ -79,7 +75,6 @@ sleepDrive <- function(R1b, Psi){
     return(R1b - 3.25 * cos(Psi))
     # R1b - 3.25 * 0.5 * (1 + 0.8*sin(Psi) - 0.47*cos(Psi))
     
-  #  warning("sleepDrive not implemented")
 }
 
 circadianModel <- function(t, x, params){
@@ -163,43 +158,9 @@ circadianModel <- function(t, x, params){
     dxdt <- c(dR, dPsi, dN, dA, dR1tot)
 
     # Return results as a list
-    list(dxdt)
+    return(list(dxdt))
     
-   # warning("circadianModel not implemented")
-    numberOfDays <- 49
-    dt<- 0.1
-    fullIntegrationWindow <- seq(from=0,to=numberOfDays * 24,by=dt)
-  
-    isAwake <- TRUE
-   schoolStartLocalTimeInHours <- 6  # This is the start time for the school
-   schoolDurationInHours <- 7  # This is the duration of the school day
-   schoolBrightnessInLux <- 300  # This is the brightness of the school
-  
-  
-   allSchoolStartOptions <- c(5, 6, 7, 8, 9, 10)
-   sleepDurationSchool <- c()
    
-    
-   for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
-    allLux <<- -1 + numeric(numberOfDays * 24 / dt + 1)  # Sanity check vector to make sure we're getting the right lux
-    
-    out <- rk4(x, fullIntegrationWindow, circadianModel, params)
-    
-    
-    homeostatLastWeek <- tail(out[,4], 24 * 7 / dt)
-    homeostatDiff <- diff(homeostatLastWeek)
-   # cat(sprintf("Wake time for school: %f\n", schoolStartLocalTimeInHours))
-    avgSleep <- (24 * length(homeostatDiff[homeostatDiff < 0])/length(homeostatDiff))
-   # cat(sprintf("Average sleep on this schedule over a week: %f\n", avgSleep))
-    
-    homeostatLastWeekDiff <- head(homeostatDiff, 24 * 5 / dt)
-    avgSleepSchool <- (24 * length(homeostatLastWeekDiff[homeostatLastWeekDiff < 0])/length(homeostatLastWeekDiff))
-   # cat(sprintf("Average sleep during school schedule over a week: %f\n", avgSleepSchool))
-    sleepDurationSchool <- append(sleepDurationSchool, avgSleepSchool)
-    homeostatFirstWeek <- head(out[,4], 24 * 7 / dt)
-    homeostatToPrint <- homeostatLastWeek
-
-    return(sleepDurationSchool)
      }
   
 }
