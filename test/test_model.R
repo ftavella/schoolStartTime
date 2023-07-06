@@ -4,6 +4,8 @@ source(file.path("circadianRhythm.R"), local = TRUE)$value
 
 #circadianRhythm(9,default_initial_conditions,params)
 
+
+
 numberOfDays <- 49
 dt<- 0.1
 fullIntegrationWindow <- seq(from=0,to=numberOfDays * 24,by=dt)
@@ -38,3 +40,13 @@ for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
 
     return(sleepDurationSchool)
  }
+
+for (sleepy in sleepDurationSchool) {
+   circadianRhythm(sleepy, default_initial_conditions, params)
+   for (circ in circadianRhythm) { 
+     plot(sleepy, circ)
+   }
+   
+
+}
+
