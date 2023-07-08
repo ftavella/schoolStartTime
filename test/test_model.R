@@ -47,9 +47,6 @@ sleepDurationSchool <- sort(sleepDurationSchool, deccreasing = FALSE)
 for (condition in default_initial_conditions) {
    
    plot(sleepDurationSchool, c(condition))
-   # warning: an error is likely bc 'condition' is a variable that represents the y-coordinate but isn't a vector
-   #warning("Error - unable to plot....")
-
   
  }
 
