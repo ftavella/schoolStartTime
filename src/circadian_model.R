@@ -40,6 +40,8 @@ muAwake <- 869.5
 chiAsleep <- 1.0/7.0
 muAsleep <- 596.5
 
+# params <- c(Dwake, Dsleep, alpha0, p, I0, Delta, G, Irecep, Targc, Tau, Beta1, A1, A2, BetaL1, BetaL2, Sigma, K, Gamma, chiAwake, muAwake, chiAsleep, muAsleep)
+
 pow <- function(a, p) {
   a ** p 
 }
