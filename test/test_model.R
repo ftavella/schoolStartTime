@@ -1,52 +1,52 @@
-# Try importing the circadian_model.R file and running a circadian simulation here
+library(deSolve)
+
+# It's important that we have the importation of the library here, otherwise the rk4 function won't work
 
 source(file.path("circadian_model.R"), local = TRUE)$value
-
-#circadianRhythm(9,default_initial_conditions,params)
-
 
 
 numberOfDays <- 49
 dt<- 0.1
 fullIntegrationWindow <- seq(from=0,to=numberOfDays * 24,by=dt)
   
-isAwake <- TRUE
-schoolStartLocalTimeInHours <- 6  # This is the start time for the school
-schoolDurationInHours <- 7  # This is the duration of the school day
-schoolBrightnessInLux <- 300  # This is the brightness of the school
   
-allSchoolStartOptions <- c(5, 6, 7, 8, 9, 10)
-sleepDurationSchool <- c()
-   
-    
-for (schoolStartLocalTimeInHours in allSchoolStartOptions) {
-    allLux <<- -1 + numeric(numberOfDays * 24 / dt + 1)  # Sanity check vector to make sure we're getting the right lux
-    
-    out <- rk4(x, fullIntegrationWindow, circadianModel, params)
-    
-    
-    homeostatLastWeek <- tail(out[,4], 24 * 7 / dt)
-    homeostatDiff <- diff(homeostatLastWeek)
-   # cat(sprintf("Wake time for school: %f\n", schoolStartLocalTimeInHours))
-    avgSleep <- (24 * length(homeostatDiff[homeostatDiff < 0])/length(homeostatDiff))
-   # cat(sprintf("Average sleep on this schedule over a week: %f\n", avgSleep))
-    
-    homeostatLastWeekDiff <- head(homeostatDiff, 24 * 5 / dt)
-    avgSleepSchool <- (24 * length(homeostatLastWeekDiff[homeostatLastWeekDiff < 0])/length(homeostatLastWeekDiff))
-   # cat(sprintf("Average sleep during school schedule over a week: %f\n", avgSleepSchool))
-    sleepDurationSchool <- append(sleepDurationSchool, avgSleepSchool)
-    homeostatFirstWeek <- head(out[,4], 24 * 7 / dt)
-    homeostatToPrint <- homeostatLastWeek
+# allSchoolStartOptions <- c(5)  keeping this vector just in case 
 
-   # return(sleepDurationSchool)
- }
+params = c(
+  awakeMu = 869.5,
+  awakeChi = 18.18,
+  asleepMu = 596.5,
+  asleepChi = 7.0,
+  schoolStart = 8.0,  # choose 8 for a more pragmatic persepctive
+  socialFactor = 25.0,
+  baselineLight = 30.0,
+  wakeThreshold = 555.4,
+  sleepThreshold = 572.7,
+  schoolDuration = 7.0,
+  schoolBrightness = 300,
+  A_1 = 0.3855,
+  A_2 = 0.1977,
+  sigma = 0.0400692,
+  beta_L1 = -0.0026,
+  beta_L2 = -0.957756,
+  P = 1.5,
+  G = 33.75,
+  I_0 = 9325.0,
+  delta = 0.0075,
+  alpha_0 = 0.05,
+  K = 0.06458,
+  tau = 23.84,
+  gamma = 0.024,
+  beta_1 = -0.09318,
+  Irecep = 1.0 / 291.0,
+  targc = 0.9677)
 
-#myVec <- circadianRhythm(sleepy, default_initial_conditions, params)
-sleepDurationSchool <- sort(sleepDurationSchool, deccreasing = FALSE)
 
-for (condition in default_initial_conditions) {
-   
-   plot(sleepDurationSchool, c(condition))
-  
- }
+out <- rk4(default_initial_conditions, fullIntegrationWindow, circadianModel, params)
+
+
+R_plot <- ggscatter(data.frame(out), x="time", y="R")
+
+#R_plot <- ggscatter(data, x="time", y="") for some other y value
+
 
