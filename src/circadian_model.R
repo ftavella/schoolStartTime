@@ -1,5 +1,4 @@
 library(deSolve)
-library(tidyverse)
 
 pow <- function(x, p){
     return (x ** p)
