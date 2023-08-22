@@ -1,4 +1,7 @@
 library(deSolve)
+library(tidyVerse)
+source(file.path(“test/test_model.R”), local = TRUE)$value 
+
 
 pow <- function(x, p){
     return (x ** p)
@@ -16,12 +19,28 @@ bHat <- function(n, light, params) {
     return (G * (1.0 - n) * alpha(light, params))
 }
 
+smooth_light <- function(t) {
+
+           rise <- tanh(0.6 * ((t %%24) - 8.0))
+
+           fall <- tanh(0.6 * ((t %%24)- 17))
+
+           return ((700.0/2.0) * (rise - fall) + 40.0)
+
+}
+
+
 typicalLight <- function(t, params){
     #TODO: create a function that returns 
     # the typical light intensity in a day
     # at a given time
     # t will come in as t %% 24
     light <- 0
+    
+    schedule <- LightSchedule(smooth_light, period = 24)
+    time_ar <- seq(from = 8.0, to = 24 * numberOfDays + 8.0, by = dt) 
+    light <- schedule(time_ar)
+
     return (light)
 }
 
@@ -67,6 +86,53 @@ sleepState <- function(t, A, R1tot, Psi, params) {
     ichi = 0 # TODO: set ichi properly
     light = 0 # TODO: set light properly
 
+    # Get R1b from R1tot and A
+    R1b <- 0.5 * (A + R1tot + 4 - sqrt(pow(A + R1tot + 4,2.0) - 4 * A * R1tot))
+
+    # Determine if student is in school hours and if it is a school day
+    # Note: Letting schoolStartLocalTimeinHours = 8 for pragmaticism; subbing this in:
+    inSchoolHours <- (t %% 24 > params[["schoolStart"]]) && (t %% 24 <= (params[["schoolStart"]] + params[["schoolDuration"]])) # 8 + 7 = 15 (schoolStartLocalTimeinHours + duration)
+    isSchoolDay <- ((t %/% 24) %% 7) < 5
+
+
+    # Determine if student is awake
+    if (inSchoolHours && isASchoolDay) {
+      isAwake <<- TRUE
+      light <- params[["schoolBrightness"]]
+    } else {
+      
+      # If it's free time, and you want to fall asleep, you can, as long as you're not up for social reasons
+      if (sleepDrive(R1b, Psi, params) > params[["sleepThreshold"]]) {  
+          # set socialFactor = 14
+        if (t %% 24 > params[["socialFactor"]] || t %% 24 < 10) { # Forbid falling asleep before a certain time due to social reasons
+          isAwake <<- FALSE
+        }
+      }
+      # If it's free time, and you want to wake up, you can wake up
+      if (sleepDrive(R1b, Psi, params) < params[["wakeThreshold"]]) {   
+        isAwake <<- TRUE
+      }
+    }
+
+    # Set mu and ichi parameters based on whether student is awake or not
+     
+    if (isAwake) {
+      ichi <- 1.0/18.18
+      mu <- 869.5
+      if (light < params[["baselineLight"]]) { # Set light to baselineLight if they're awake and it's dark outside
+        light <- params[["baselineLight"]]
+      }
+    } else {
+      ichi <- 1.0/7.0  # Originally 1.0/4.2
+      mu <- 596.5
+      light <- 0  # Set light to 0 if they're asleep
+    }
+
+    # Store lux value for plotting later
+#   if (allLux[1 + floor(t / dt)] == -1) {
+ #     allLux[1 + floor(t / dt)] <<- light
+  #  }
+    
     return(c(mu, ichi, light))
 }
 
@@ -98,10 +164,10 @@ circadianModel <- function(t, x, params){
     ichi <- currentState[2]
     light <- currentState[3]
 
-    # Store lux value for plotting later, we'll work on how to get light info out later on
-    # if (allLux[1 + floor(t / dt)] == -1) {
-    #     allLux[1 + floor(t / dt)] <<- light
-    # }
+    #Store lux value for plotting later, we'll work on how to get light info out later on
+     if (allLux[1 + floor(t / dt)] == -1) {
+         allLux[1 + floor(t / dt)] <<- light
+     }
 
     # Calculate the right hand side of the ODEs
     K <- params[["K"]]
