@@ -19,6 +19,7 @@ params = c(
   sleepThreshold = 572.7,
   schoolDuration = 7.0,
   schoolBrightness = 300,
+  sleepDriveSlope = 3.25, # added value for sleepDriveSlope
   A_1 = 0.3855,
   A_2 = 0.1977,
   sigma = 0.0400692,
