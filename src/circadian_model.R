@@ -2,6 +2,8 @@ library(deSolve)
 library(tidyVerse)
 source(file.path(“test/test_model.R”), local = TRUE)$value 
 
+schoolInfo <- c((t %% 24 > params[["schoolStart"]]) && (t %% 24 <= (params[["schoolStart"]] + params[["schoolDuration"]])), ((t %/% 24) %% 7) < 5)
+
 
 pow <- function(x, p){
     return (x ** p)
@@ -29,6 +31,10 @@ smooth_light <- function(t) {
 
 }
 
+sleepDrive <- function(R1b, Psi, params){
+    sleepDriveSlope <- params[["sleepDriveSlope"]]
+    return(R1b - sleepDriveSlope * cos(Psi))
+}
 
 typicalLight <- function(t, params){
     #TODO: create a function that returns 
@@ -37,9 +43,41 @@ typicalLight <- function(t, params){
     # t will come in as t %% 24
     light <- 0
     
-    schedule <- LightSchedule(smooth_light, period = 24)
-    time_ar <- seq(from = 8.0, to = 24 * numberOfDays + 8.0, by = dt) 
-    light <- schedule(time_ar)
+    #schedule <- LightSchedule(smooth_light, period = 24)
+    #time_ar <- seq(from = 8.0, to = 24 * numberOfDays + 8.0, by = dt) 
+
+    if (schoolInfo[1] && schoolInfo[2]) {
+         awake <<- TRUE
+        
+    } else {
+
+    
+    # If it's free time, and you want to fall asleep, you can, as long as you're not up for social reasons
+       if (sleepDrive(R1b, Psi, params) > params[["sleepThreshold"]]) {  
+          # set socialFactor = 14
+        if (t %% 24 > params[["socialFactor"]] || t %% 24 < 10) { # Forbid falling asleep before a certain time due to social reasons
+          awake <<- FALSE
+        }
+       }
+       # If it's free time, and you want to wake up, you can wake up
+       if (sleepDrive(R1b, Psi, params) < params[["wakeThreshold"]]) {   
+        awake <<- TRUE
+       } 
+
+    }
+    
+    if (awake == TRUE) {
+        s <<- 0 
+      } else {
+        s <<- 1
+    }    
+
+   
+    
+    # I = (1 - S)I(t)
+    # S = 0 if awake & S = 1 if asleep
+    light = (1 - s) * smooth_light(t)
+    
 
     return (light)
 }
@@ -67,10 +105,7 @@ amplitudeResponse <- function(R, Psi, params){
     return(firstTerm + secondTerm)
 }
 
-sleepDrive <- function(R1b, Psi, params){
-    sleepDriveSlope <- params[["sleepDriveSlope"]]
-    return(R1b - sleepDriveSlope * cos(Psi))
-}
+
 
 
 sleepState <- function(t, A, R1tot, Psi, params) {
@@ -91,8 +126,8 @@ sleepState <- function(t, A, R1tot, Psi, params) {
 
     # Determine if student is in school hours and if it is a school day
     # Note: Letting schoolStartLocalTimeinHours = 8 for pragmaticism; subbing this in:
-    inSchoolHours <- (t %% 24 > params[["schoolStart"]]) && (t %% 24 <= (params[["schoolStart"]] + params[["schoolDuration"]])) # 8 + 7 = 15 (schoolStartLocalTimeinHours + duration)
-    isSchoolDay <- ((t %/% 24) %% 7) < 5
+    inSchoolHours <- schoolInfo[1] # 8 + 7 = 15 (schoolStartLocalTimeinHours + duration)
+    isSchoolDay <- schoolInfo[2]
 
 
     # Determine if student is awake
@@ -164,10 +199,7 @@ circadianModel <- function(t, x, params){
     ichi <- currentState[2]
     light <- currentState[3]
 
-    #Store lux value for plotting later, we'll work on how to get light info out later on
-     if (allLux[1 + floor(t / dt)] == -1) {
-         allLux[1 + floor(t / dt)] <<- light
-     }
+  
 
     # Calculate the right hand side of the ODEs
     K <- params[["K"]]
