@@ -2,8 +2,6 @@ library(deSolve)
 library(tidyVerse)
 source(file.path(“test/test_model.R”), local = TRUE)$value 
 
-schoolInfo <- c((t %% 24 > params[["schoolStart"]]) && (t %% 24 <= (params[["schoolStart"]] + params[["schoolDuration"]])), ((t %/% 24) %% 7) < 5)
-
 
 pow <- function(x, p){
     return (x ** p)
@@ -43,6 +41,8 @@ typicalLight <- function(t, params){
     # t will come in as t %% 24
     light <- 0
     
+    schoolInfo <- c((t %% 24 > params[["schoolStart"]]) && (t %% 24 <= (params[["schoolStart"]] + params[["schoolDuration"]])), ((t %/% 24) %% 7) < 5)
+
     #schedule <- LightSchedule(smooth_light, period = 24)
     #time_ar <- seq(from = 8.0, to = 24 * numberOfDays + 8.0, by = dt) 
 
@@ -121,6 +121,8 @@ sleepState <- function(t, A, R1tot, Psi, params) {
     ichi = 0 # TODO: set ichi properly
     light = 0 # TODO: set light properly
 
+    schoolInfo <- c((t %% 24 > params[["schoolStart"]]) && (t %% 24 <= (params[["schoolStart"]] + params[["schoolDuration"]])), ((t %/% 24) %% 7) < 5)
+    
     # Get R1b from R1tot and A
     R1b <- 0.5 * (A + R1tot + 4 - sqrt(pow(A + R1tot + 4,2.0) - 4 * A * R1tot))
 
@@ -129,6 +131,7 @@ sleepState <- function(t, A, R1tot, Psi, params) {
     inSchoolHours <- schoolInfo[1] # 8 + 7 = 15 (schoolStartLocalTimeinHours + duration)
     isSchoolDay <- schoolInfo[2]
 
+  
 
     # Determine if student is awake
     if (inSchoolHours && isASchoolDay) {
