@@ -1,17 +1,12 @@
 library(deSolve)
+library(tidyverse)
 
-# It's important that we have the importation of the library here, otherwise the rk4 function won't work
-
-source(file.path("circadian_model.R"), local = TRUE)$value
-
+source(file.path("src/circadian_model.R"), local = TRUE)$value
 
 numberOfDays <- 49
 dt<- 0.1
 fullIntegrationWindow <- seq(from=0,to=numberOfDays * 24,by=dt)
   
-  
-# allSchoolStartOptions <- c(5)  keeping this vector just in case 
-
 params = c(
   awakeMu = 869.5,
   awakeChi = 18.18,
@@ -24,6 +19,7 @@ params = c(
   sleepThreshold = 572.7,
   schoolDuration = 7.0,
   schoolBrightness = 300,
+  sleepDriveSlope = 3.25, # added value for sleepDriveSlope
   A_1 = 0.3855,
   A_2 = 0.1977,
   sigma = 0.0400692,
@@ -41,12 +37,9 @@ params = c(
   Irecep = 1.0 / 291.0,
   targc = 0.9677)
 
+default_initial_conditions <- c(R=0.8, Psi=2.5, n=0.8, A=767.7, R1tot=584.2)
 
 out <- rk4(default_initial_conditions, fullIntegrationWindow, circadianModel, params)
 
-
-R_plot <- ggscatter(data.frame(out), x="time", y="R")
-
-#R_plot <- ggscatter(data, x="time", y="") for some other y value
-
-
+R_plot <- ggplot(data.frame(out), aes(x=time, y=R)) + geom_line()
+print(R_plot)
