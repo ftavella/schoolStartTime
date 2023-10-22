@@ -105,18 +105,7 @@ amplitudeResponse <- function(R, Psi, params){
     return(firstTerm + secondTerm)
 }
 
-
-
-
-sleepState <- function(t, A, R1tot, Psi, params) {
-    # TODO: Migrate the previous code within circadianModel
-    # to this function. This function determines whether
-    # the student is awake or asleep at a given time.
-    # returns the necessary parameters that circadianModel
-    # needs to run the ODEs
-
-    # 1. Determine if isAwake
-    # set mu, ichi, and light based on isAwake
+isStudentAwake <- function(t, Psi, R1b, params) {
     mu = 0 # TODO: set mu properly
     ichi = 0 # TODO: set ichi properly
     light = 0 # TODO: set light properly
@@ -152,25 +141,47 @@ sleepState <- function(t, A, R1tot, Psi, params) {
       }
     }
 
-    # Set mu and ichi parameters based on whether student is awake or not
-     
-    if (isAwake) {
-      ichi <- 1.0/18.18
-      mu <- 869.5
-      if (light < params[["baselineLight"]]) { # Set light to baselineLight if they're awake and it's dark outside
-        light <- params[["baselineLight"]]
-      }
-    } else {
-      ichi <- 1.0/7.0  # Originally 1.0/4.2
-      mu <- 596.5
-      light <- 0  # Set light to 0 if they're asleep
-    }
+}
 
-    # Store lux value for plotting later
-#   if (allLux[1 + floor(t / dt)] == -1) {
- #     allLux[1 + floor(t / dt)] <<- light
-  #  }
+lightExposure <- function(t, isAwake, params) {
+    rise <- tanh(0.6 * ((t %%24) - 8.0))
+    fall <- tanh(0.6 * ((t %%24)- 17))
+    smoothLight <- (700.0/2.0) * (rise - fall) + 40.0
+     
+    if (isAwake == TRUE) {
+        s <<- 0 
+      } else {
+        s <<- 1
+    }    
+
+   
     
+    # I = (1 - S)I(t)
+    # S = 0 if awake & S = 1 if asleep
+    light = (1 - s) * smoothLight
+    
+
+    return (light)
+}
+
+
+
+sleepState <- function(t, A, R1tot, Psi, params) {
+     # Returns mu, ichi, and light based on the current state of the model
+    # 0. Calculate R1b
+    R1b <- 0.5 * (A + R1tot + 4 - sqrt(pow(A + R1tot + 4,2.0) - 4 * A * R1tot))
+    # 1. Determine if student isAwake using the current state information
+    isAwake <- isStudentAwake(t, Psi, R1b, params)
+    # 2. Determine what light the student is exposed to
+    light <- lightExposure(t, isAwake, params)
+    # 3. Select mu and ichi based on wake status
+    if (isAwake) {
+      ichi <- 1.0 / params[["awakeChi"]]
+      mu <- params[["awakeMu"]]
+    } else {
+      ichi <-  1.0 / params[["asleepChi"]]
+      mu <-  params[["asleepMu"]]
+    }    
     return(c(mu, ichi, light))
 }
 
