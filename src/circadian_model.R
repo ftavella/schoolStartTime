@@ -56,7 +56,7 @@ sleepDrive <- function(R1b, Psi, params){
      ##  if (sleepDrive(R1b, Psi, params) > params[["sleepThreshold"]]) {  
           # set socialFactor = 14
        ## if (t %% 24 > params[["socialFactor"]] || t %% 24 < 10) { # Forbid falling asleep before a certain time due to social reasons
-          awake <<- FALSE
+       #   awake <<- FALSE
       ##  }
       ## }
        # If it's free time, and you want to wake up, you can wake up
@@ -147,9 +147,9 @@ isStudentAwake <- function(t, Psi, R1b, params) {
 }
 
 lightExposure <- function(t, isAwake, params) {
-    rise <- tanh(0.6 * ((t %%24) - 8.0))
-    fall <- tanh(0.6 * ((t %%24)- 17))
-    smoothLight <- (700.0/2.0) * (rise - fall) + 40.0
+   rise <- tanh(params[["lightSlope"]] * ((t %% 24) - params[["lightRiseTime"]]))
+   fall <- tanh(params[["lightSlope"]] * ((t %% 24) - params[["lightRiseTime"]]))
+   smoothLight <- (params[["lightAmplitude"]]/2.0) * (rise - fall) + params[["lightBaseline"]]
      
     if (isAwake == TRUE) {
         s <<- 0 
