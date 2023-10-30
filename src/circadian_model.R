@@ -146,6 +146,8 @@ isStudentAwake <- function(t, Psi, R1b, params) {
 
 }
 
+# 10.29 | main changes HERE -> 
+
 lightExposure <- function(t, isAwake, params) {
    rise <- tanh(params[["lightSlope"]] * ((t %% 24) - params[["lightRiseTime"]]))
    fall <- tanh(params[["lightSlope"]] * ((t %% 24) - params[["lightRiseTime"]]))
