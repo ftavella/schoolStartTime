@@ -51,7 +51,7 @@ ui <- fluidPage(
            # maybe dropdown here?
            # selectInput("cit",
            #             label = "Choose the City Where You Reside In",
-           #             choices = c(), # vector of world cities - to do
+           #             choices = c(), # vector of U.S. cities - to do
            #             selected = ""),
 
 
