@@ -127,20 +127,20 @@ server <- function(input, output) {
     
     # find and print averages 
 
-    output$txtwake <- renderPlot({
+    output$txtwake <- renderText({
       "Average Wake Time: "
        # (sum of (fallasleep + sleepduration) % 12) / 6
 
 
     })
 
-    output$txtfallasleep <- renderPlot({ 
+    output$txtfallasleep <- renderText({ 
       "Average Fall Asleep Time: "
 
 
     })
 
-    output$txtsleepduration <- renderPlot({ 
+    output$txtsleepduration <- renderText({ 
       "Average Sleep Duration: "
       
 
