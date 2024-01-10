@@ -86,6 +86,67 @@ server <- function(input, output) {
          
     })
 
+    # find how to get avgSleepHours and how to plot  
+    
+
+    output$plot <- renderPlot({
+      avgsleepHours <- # avg sleep times vector here
+      wakeAM <- c("10", "5", "6", "7", "8", "9")
+      ca.df <- data.frame(wakeAM, avgsleepHours)
+      isolate(ggplot(ca.df, aes(x=wakeAM, y=avgsleepHours)) +
+               geom_bar(stat="identity", fill="lightblue") +
+               theme(
+                 panel.grid.minor = element_blank(),
+                 panel.grid.major = element_blank(),
+                 panel.background = element_blank(),
+                 plot.background = element_blank())
+      )
+
+
+    })
+
+    # 
+
+    output$plot2 <- renderPlot({
+       # for Histogram fall asleep time        
+      fallasleeptimes <- # fall asleep times vector here
+      # 1, 2 AM & 9, 10, 11, 12 PM
+      fallAslAMPM <- c("1", "2", "9", "10", "11", "12") 
+      ca.FA <- data.frame(wakeAM, avgsleepHours)
+      isolate(ggplot(ca.FA, aes(x=fallAslAM, y=fallasleeptimes)) +
+               geom_bar(stat="identity", fill="lightblue") +
+               theme(
+                 panel.grid.minor = element_blank(),
+                 panel.grid.major = element_blank(),
+                 panel.background = element_blank(),
+                 plot.background = element_blank())
+     )
+
+
+    })
+    
+    # find and print averages 
+
+    output$txtwake <- renderPlot({
+      "Average Wake Time: "
+       # (sum of (fallasleep + sleepduration) % 12) / 6
+
+
+    })
+
+    output$txtfallasleep <- renderPlot({ 
+      "Average Fall Asleep Time: "
+
+
+    })
+
+    output$txtsleepduration <- renderPlot({ 
+      "Average Sleep Duration: "
+      
+
+    })
+
+
     
 
     
