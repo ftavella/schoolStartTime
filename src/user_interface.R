@@ -2,24 +2,7 @@
 # this is another comment
 
 library(shiny)
-library(shinythemes)
-library(suncalc)
-library(ggplot2)
-library(maptools)
-library(lubridate)
-library(lutz)
-library(tidygeocoder)
-library(tibble)
-library(dplyr, warn.conflicts = TRUE)
-library(deSolve)
-library(sf)
-library(tidyverse)
-library(scales)
-library(plotly)
-library(shinycssloaders)
-library(waiter)
-library(progress)
-library(progressr)
+
 
 
 ui <- fluidPage(
