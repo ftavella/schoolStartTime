@@ -22,28 +22,37 @@ ui <- fluidPage(
        
      tabPanel(
         "Your Information",
-
+      sidebarLayout(   
         
         sidebarPanel(
-           helpText("Modeling Schoool Start Times....."),
+           tags$h3("Modeling Schoool Start Times....."),
            verbatimTextOutput("textout"),
            
            tags$h3("Which city do you live in?"),
-           textInput("txt1", "City:"), 
+          # textInput("txt1", "City:"),  
 
            # maybe dropdown here?
-           # selectInput("cit",
-           #             label = "Choose the City Where You Reside In",
-           #             choices = c(), # vector of U.S. cities - to do
-           #             selected = ""),
+           selectInput("cit",
+                        label = "Choose the City Where You Reside In",
+                        choices = c("Chicago", "New York", "LA"), # vector of U.S. cities
+                        selected = ""),
 
 
         ),
 
         mainPanel(
            h1("Histogram Wake Times"),
+           plotOutput("plot"),
+
+           h1("Histogram Fall Asleep Times"),
+           plotOutput("plot2"),
+
+           verbatimTextOutput("txtwake"),
+           verbatimTextOutput("txtfallasleep"),
+           verbatimTextOutput("txtsleepduration"), 
 
         )
+       )   
      )
 
 
@@ -57,6 +66,31 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+    
+    wakeTime <- c()
+    fallAsleepTime <- c()
+    time <- c()
+    
+    sleepDuration <- c()
+
+    for (i in 1:100) {
+       wakeTime <- append(wakeTime, i)
+       fallAsleepTime <- append(fallAsleepTime, i)
+       time <- append(time, i)
+
+    }
+    
+    
+    sleepDurationTime <- wakTime - fallAsleepTime
+
+    avgSleepDuration <- (sum(sleepDurationTime) %% 100) 
+    avgWake <- (sum(wakeTime) %% 100) %% 12
+    avgfallAsleep <- (sum(fallAsleepTime) %% 100) %% 12
+     
+    wakeMsg <- paste("Average Wake Time: ", avgWake)
+    fallAsleepMsg <- paste("Average Fall Asleep Time: ", avgfallAsleep)
+    sleepDurationMsg <- paste("Average Sleep Duration Time: ", avgSleepDuration) 
+
 
     output$text1 <- renderText({ 
 
@@ -73,10 +107,8 @@ server <- function(input, output) {
     
 
     output$plot <- renderPlot({
-      avgsleepHours <- # avg sleep times vector here
-      wakeAM <- c("10", "5", "6", "7", "8", "9")
-      ca.df <- data.frame(wakeAM, avgsleepHours)
-      isolate(ggplot(ca.df, aes(x=wakeAM, y=avgsleepHours)) +
+      ca.df <- data.frame(time, wakeTime)
+      isolate(ggplot(ca.df, aes(x=time, y=wakeTime)) +
                geom_bar(stat="identity", fill="lightblue") +
                theme(
                  panel.grid.minor = element_blank(),
@@ -91,12 +123,8 @@ server <- function(input, output) {
     # 
 
     output$plot2 <- renderPlot({
-       # for Histogram fall asleep time        
-      fallasleeptimes <- # fall asleep times vector here
-      # 1, 2 AM & 9, 10, 11, 12 PM
-      fallAslAMPM <- c("1", "2", "9", "10", "11", "12") 
-      ca.FA <- data.frame(wakeAM, avgsleepHours)
-      isolate(ggplot(ca.FA, aes(x=fallAslAM, y=fallasleeptimes)) +
+      ca.FA <- data.frame(time, fallAsleepTime)
+      isolate(ggplot(ca.FA, aes(x=fallAslAM, y=fallAsleepTime)) +
                geom_bar(stat="identity", fill="lightblue") +
                theme(
                  panel.grid.minor = element_blank(),
@@ -111,20 +139,20 @@ server <- function(input, output) {
     # find and print averages 
 
     output$txtwake <- renderText({
-      "Average Wake Time: "
+      wakeMsg
        # (sum of (fallasleep + sleepduration) % 12) / 6
 
 
     })
 
     output$txtfallasleep <- renderText({ 
-      "Average Fall Asleep Time: "
+      fallAsleepMsg
 
 
     })
 
     output$txtsleepduration <- renderText({ 
-      "Average Sleep Duration: "
+      sleepDurationMsg
       
 
     })
