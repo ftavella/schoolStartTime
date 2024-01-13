@@ -81,7 +81,7 @@ server <- function(input, output) {
     }
     
     
-    sleepDurationTime <- wakTime - fallAsleepTime
+    sleepDurationTime <- wakeTime - fallAsleepTime
 
     avgSleepDuration <- (sum(sleepDurationTime) %% 100) 
     avgWake <- (sum(wakeTime) %% 100) %% 12
