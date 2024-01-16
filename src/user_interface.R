@@ -114,7 +114,12 @@ server <- function(input, output) {
                  panel.grid.minor = element_blank(),
                  panel.grid.major = element_blank(),
                  panel.background = element_blank(),
-                 plot.background = element_blank())
+                 plot.background = element_blank(),
+                 axis.title.x = element_text(color = "blue", size = 20, face = "plain"),
+                 axis.title.y = element_text(color = "blue", size = 20, face = "plain"),
+                 axis.text = element_text(color = "black", size = 10, face = 1)) + 
+               xlab("Wake Time (hour of day)") +
+               ylab("Counts")
       )
 
 
@@ -130,7 +135,12 @@ server <- function(input, output) {
                  panel.grid.minor = element_blank(),
                  panel.grid.major = element_blank(),
                  panel.background = element_blank(),
-                 plot.background = element_blank())
+                 plot.background = element_blank(),
+                 axis.title.x = element_text(color = "blue", size = 20, face = "plain"),
+                 axis.title.y = element_text(color = "blue", size = 20, face = "plain"),
+                 axis.text = element_text(color = "black", size = 10, face = 1)) +
+                xlab("Fall Asleep time (hour of day)") +
+                ylab("Counts")
      )
 
 
