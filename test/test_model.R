@@ -4,22 +4,22 @@ library(tidyverse)
 source(file.path("src/circadian_model.R"), local = TRUE)$value
 
 numberOfDays <- 49
-dt<- 0.1
-fullIntegrationWindow <- seq(from=0,to=numberOfDays * 24,by=dt)
+dt <- 0.1
+fullIntegrationWindow <- seq(from = 0,to = numberOfDays * 24, by = dt)
   
-params = c(
+params <- c(
   awakeMu = 869.5,
   awakeChi = 18.18,
   asleepMu = 596.5,
   asleepChi = 7.0,
-  schoolStart = 8.0,  # choose 8 for a more pragmatic persepctive
+  schoolStart = 8.0,
   socialFactor = 25.0,
   baselineLight = 30.0,
   wakeThreshold = 555.4,
   sleepThreshold = 572.7,
   schoolDuration = 7.0,
   schoolBrightness = 300,
-  sleepDriveSlope = 3.25, # added value for sleepDriveSlope
+  sleepDriveSlope = 3.25,
   A_1 = 0.3855,
   A_2 = 0.1977,
   sigma = 0.0400692,
@@ -41,11 +41,13 @@ params = c(
   lightFallTime = 17.0,
   lightAmplitude = 700.0,
   lightBaseline = 40.0)
-  # 10.29 | more changes -> params values added
 
-default_initial_conditions <- c(R=0.8, Psi=2.5, n=0.8, A=767.7, R1tot=584.2)
+default_initial_conditions <- c(R = 0.8, Psi = 2.5, n = 0.8,
+                                A = 767.7, R1tot = 584.2)
 
-out <- rk4(default_initial_conditions, fullIntegrationWindow, circadianModel, params)
+out <- rk4(default_initial_conditions, fullIntegrationWindow,
+           circadianModel, params)
 
-R_plot <- ggplot(data.frame(out), aes(x=time, y=R)) + geom_line()
-print(R_plot)
+circadian_plot <- ggplot(data.frame(out), aes(x = time, y = R * cos(Psi))) +
+                  geom_line()
+print(circadian_plot)
