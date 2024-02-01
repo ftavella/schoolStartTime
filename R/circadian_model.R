@@ -1,33 +1,33 @@
 library(deSolve)
 library(tidyverse)
 
-pow <- function(x, p){
+pow2 <- function(x, p){
     return(x ** p)
 }
 
-alpha <- function(light, params) {
+alpha2 <- function(light, params) {
     alpha0 <- params[["alpha_0"]]
     P <- params[["P"]]
     I0 <- params[["I_0"]]
     return(alpha0 * pow(light, P) / (pow(light, P) + I0))
 }
 
-bHat <- function(n, light, params) {
+bHat2 <- function(n, light, params) {
     G <- params[["G"]]
     return(G * (1.0 - n) * alpha(light, params))
 }
 
-sleepDrive <- function(R1bValue, Psi, params){
+sleepDrive2 <- function(R1bValue, Psi, params){
     sleepDriveSlope <- params[["sleepDriveSlope"]]
     return(R1bValue - sleepDriveSlope * cos(Psi))
 }
 
-R1b <- function(A, R1tot, Psi, params){
+R1b2 <- function(A, R1tot, Psi, params){
     r1totSqrtTerm = sqrt(pow(A + R1tot + 4.0, 2.0) - 4 * A * R1tot)
     return(0.5 * (A + R1tot + 4 - r1totSqrtTerm))
 }
 
-phaseResponse <- function(R, Psi, params) {
+phaseResponse2 <- function(R, Psi, params) {
     A1 <- params[["A_1"]]
     A2 <- params[["A_2"]]
     Sigma <- params[["sigma"]]
@@ -39,7 +39,7 @@ phaseResponse <- function(R, Psi, params) {
     return(Sigma - firstTerm - secondTerm)
 }
 
-amplitudeResponse <- function(R, Psi, params){
+amplitudeResponse2 <- function(R, Psi, params){
     A1 <- params[["A_1"]]
     A2 <- params[["A_2"]]
     BetaL1 <- params[["beta_L1"]]
@@ -50,7 +50,7 @@ amplitudeResponse <- function(R, Psi, params){
     return(firstTerm + secondTerm)
 }
 
-isStudentAwake <- function(t, R1bValue, Psi, inSchool, params){
+isStudentAwake2 <- function(t, R1bValue, Psi, inSchool, params){
 	sleepThreshold <- params[["sleepThreshold"]]
 	socialFactor <- params[["socialFactor"]]
     # Determine if student is awake
@@ -70,7 +70,7 @@ isStudentAwake <- function(t, R1bValue, Psi, inSchool, params){
 	return(isAwake)
 }
 
-lightExposure <- function(t, isAwake, inSchool, params) {
+lightExposure2 <- function(t, isAwake, inSchool, params) {
 	slope <- params[["lightSlope"]]
 	riseTime <- params[["lightRiseTime"]]
 	fallTime <- params[["lightFallTime"]]
@@ -91,7 +91,7 @@ lightExposure <- function(t, isAwake, inSchool, params) {
     return(light)
 }
 
-sleepState <- function(t, R1bValue, Psi, inSchool, params) {
+sleepState2 <- function(t, R1bValue, Psi, inSchool, params) {
     # Returns mu, ichi, and light based on the current state of the model
     # 1. Determine if student isAwake using the current state information
     isAwake <- isStudentAwake(t, R1bValue, Psi, inSchool, params)
@@ -108,7 +108,7 @@ sleepState <- function(t, R1bValue, Psi, inSchool, params) {
     return(c(mu, ichi, light))
 }
 
-studentInSchool <- function(t, params){
+studentInSchool2 <- function(t, params){
 	schoolStart <- params[["schoolStart"]]
 	schoolDuration <- params[["schoolDuration"]]
 	gteSchoolStart <- (t %% 24 >= schoolStart)

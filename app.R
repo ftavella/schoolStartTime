@@ -50,7 +50,7 @@ server <- function(input, output) {
      
     wakeMsg <- paste("Average Wake Time: ", avgWake)
     fallAsleepMsg <- paste("Average Fall Asleep Time: ", avgfallAsleep)
-    sleepDurationMsg <- paste("Average Sleep Duration Time: ", avgSleepDuration) 
+    sleepDurationMsg <- paste("Average Sleep Duration Time: ", avgSleepDuration)
 
     output$text1 <- renderText({})
 
