@@ -16,7 +16,7 @@ isStudentAwake <- function(t, S, R1b, Psi, inSchool, params) {
     if (inSchool) {
         return(TRUE)
     }
-    currentSleepDrive <- schoolStartTimes::sleepDrive(R1b, Psi, params)
+    currentSleepDrive <- sleepDrive(R1b, Psi, params)
     sleepThreshold <- params[["sleepThreshold"]]
     wakeThreshold <- params[["wakeThreshold"]]
     if (currentSleepDrive < wakeThreshold) {

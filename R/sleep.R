@@ -21,7 +21,7 @@ sleepDrive <- function(R1b, Psi, params) {
 #'
 #' @return Numeric vector, the calculated mu, ichi, and light
 sleepParameters <- function(t, isAwake, inSchool, params) {
-    light <- schoolStartTimes::lightExposure(t, isAwake, inSchool, params)
+    light <- lightExposure(t, isAwake, inSchool, params)
     ichi <- 1.0 / params[[if (isAwake) "awakeChi" else "asleepChi"]]
     mu <- params[[if (isAwake) "awakeMu" else "asleepMu"]]
     return(c(mu, ichi, light))
