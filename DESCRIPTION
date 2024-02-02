@@ -2,22 +2,22 @@ Package: schoolStartTimes
 Title: Shiny application exploring the impact of school start times on student's sleep based on circadian rhythm simulations
 Version: 0.0.1
 Authors@R:
-  c(
-    person("Arjun", "Alva", email = "306600@aaps.k12.mi.us", role = c("aut")),
-    person("Franco", "Tavella", email = "ftavella@umich.edu", role = c("cre", "aut")),
-    person("Olivia", "Walch", email = "olivia@arcascope.com", role = c("aut")),
-    person(family = "Arcascope", role = c("cph", "fnd"))
-  )
+    c(
+        person("Arjun", "Alva", email = "306600@aaps.k12.mi.us", role = c("aut")),
+        person("Franco", "Tavella", email = "ftavella@umich.edu", role = c("cre", "aut")),
+        person("Olivia", "Walch", email = "olivia@arcascope.com", role = c("aut")),
+        person(family = "Arcascope", role = c("cph", "fnd"))
+    )
 Description: The schoolStartTimes application simulates the effect of school start time and duration on the circadian rhythm via differential equation modeling.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
 Imports:
     shiny,
     deSolve,
     tidyverse,
-    ggplot2,
+    ggplot2
 Suggests:
     testthat
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.0
