@@ -11,32 +11,32 @@ PsiValues <- seq(0, 2 * pi, length.out = 100)
 test_that(
     "Always awake in school", {
     expect_equal(
-        sapply(R1bValues, isStudentAwake, t = 0, currentState = 1, Psi = pi,
+        sapply(R1bValues, isStudentAwake, t = 0, S = 1, Psi = pi,
                inSchool = TRUE, params = params),
         rep(TRUE, 100)
     )
     expect_equal(
-        sapply(R1bValues, isStudentAwake, t = 0, currentState = 0, Psi = pi,
+        sapply(R1bValues, isStudentAwake, t = 0, S = 0, Psi = pi,
                inSchool = TRUE, params = params),
         rep(TRUE, 100)
     )
     expect_equal(
-        sapply(PsiValues, isStudentAwake, t = 0, currentState = 1, R1b = 560,
+        sapply(PsiValues, isStudentAwake, t = 0, S = 1, R1b = 560,
                inSchool = TRUE, params = params),
         rep(TRUE, 100)
     )
     expect_equal(
-        sapply(PsiValues, isStudentAwake, t = 0, currentState = 0, R1b = 560,
+        sapply(PsiValues, isStudentAwake, t = 0, S = 0, R1b = 560,
                inSchool = TRUE, params = params),
         rep(TRUE, 100)
     )
     expect_equal(
-        sapply(timeValues, isStudentAwake, currentState = 1, R1b = 560,
+        sapply(timeValues, isStudentAwake, S = 1, R1b = 560,
                Psi = pi, inSchool = TRUE, params = params),
         rep(TRUE, 100)
     )
     expect_equal(
-        sapply(timeValues, isStudentAwake, currentState = 0, R1b = 560,
+        sapply(timeValues, isStudentAwake, S = 0, R1b = 560,
                Psi = pi, inSchool = TRUE, params = params),
         rep(TRUE, 100)
     )
