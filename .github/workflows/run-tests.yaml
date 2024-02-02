@@ -63,6 +63,7 @@ jobs:
       - name: Run tests
         shell: Rscript {0}
         run: |
+          library(shiny)
           shiny::runTests(".", assert = TRUE)
 
       - name: Upload test results
