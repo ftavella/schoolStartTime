@@ -12,3 +12,6 @@ test_that("sleepDrive() returns the correct values", {
 
 ## Test the sleepParameters() function
 # TODO: Write tests
+
+## Test the sleepModel() function
+# TODO: Write tests

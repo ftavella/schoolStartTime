@@ -31,19 +31,6 @@ getBHat <- function(n, light, params) {
     return(G * (1.0 - n) * alpha)
 }
 
-#' Calculate the R1b value based on A, R1tot, and Psi
-#'
-#' @param A Numeric, the value of A
-#' @param R1tot Numeric, the total value of R1
-#' @param Psi Numeric, the value of Psi
-#'
-#' @return Numeric, the calculated R1b value
-#' @export
-getR1b <- function(A, R1tot, Psi) {
-    r1totSqrtTerm = sqrt((A + R1tot + 4.0) ^ 2 - 4 * A * R1tot)
-    return(0.5 * (A + R1tot + 4 - r1totSqrtTerm))
-}
-
 #' Calculate the phase response based on R and Psi
 #'
 #' @param R Numeric, the value of R
@@ -86,4 +73,35 @@ amplitudeResponse <- function(R, Psi, params) {
     firstTerm <- A1 * 0.5 * (1.0 - R^4) * cos(Psi + BetaL1)
     secondTerm <- A2 * 0.5 * R * (1.0 - R^8) * cos(2.0 * Psi + BetaL2)
     return(firstTerm + secondTerm)
+}
+
+#' Calculate dR, dPsi, and dN based on the Hannay 19 et al. model
+#'
+#' @param t Time in hours since the start of the week (0 = Sunday at midnight)
+#' @param x Current values of the circadian model variables: R, Psi, and n.
+#' @param light The light input to the circadian model.
+#' @param params A list of parameters used in the circadian model.
+#'
+#' @return Derivatives of the circadian model variables: dR, dPsi, and dN.
+#' @export
+circadianModel <- function(t, x, light, params) {
+    R <- x[1]
+    Psi <- x[2]
+    n <- x[3]
+    K <- params[["K"]]
+    Beta1 <- params[["beta_1"]]
+    Tau <- params[["tau"]]
+    Delta <- params[["delta"]]
+    Gamma <- params[["gamma"]]
+    alpha_L <- getAlpha(light, params)
+    Bhat <- getBHat(n, light, params)
+    lightAmp <- Bhat * amplitudeResponse(R, Psi, params)
+    lightPhase <- Bhat * phaseResponse(R, Psi, params)
+    couplingTermAmp <- K * 0.5 * cos(Beta1) * R * (1.0 - R^4)
+    dR = (-1.0 * Gamma * R) + couplingTermAmp + lightAmp
+    naturalOscillation <- 2.0 * pi / Tau
+    couplingTermPhase <- K / 2.0 * sin(Beta1) * (1 + R^4)
+    dPsi <- naturalOscillation + couplingTermPhase + lightPhase
+    dN <- 60.0 * (alpha_L * (1 - n) - Delta * n)
+    return(c(dR, dPsi, dN))
 }
