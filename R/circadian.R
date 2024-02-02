@@ -103,5 +103,5 @@ circadianModel <- function(t, x, light, params) {
     couplingTermPhase <- K / 2.0 * sin(Beta1) * (1 + R^4)
     dPsi <- naturalOscillation + couplingTermPhase + lightPhase
     dN <- 60.0 * (alpha_L * (1 - n) - Delta * n)
-    return(c(dR, dPsi, dN))
+    return(list(c(dR, dPsi, dN)))
 }

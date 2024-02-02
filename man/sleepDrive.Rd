@@ -4,10 +4,10 @@
 \alias{sleepDrive}
 \title{Calculate the sleep drive}
 \usage{
-sleepDrive(R1bValue, Psi, params)
+sleepDrive(R1b, Psi, params)
 }
 \arguments{
-\item{R1bValue}{The current value of the R1b variable in the circadian model}
+\item{R1b}{The current value of the R1b variable in the circadian model}
 
 \item{Psi}{The current value of the Psi variable in the circadian model}
 

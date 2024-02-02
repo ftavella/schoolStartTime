@@ -7,7 +7,7 @@
 lightExposure(t, isAwake, inSchool, params)
 }
 \arguments{
-\item{t}{The time of day in hours}
+\item{t}{Time in hours since the start of the week (0 = Sunday at midnight)}
 
 \item{isAwake}{A boolean indicating whether the student is awake}
 

@@ -44,5 +44,5 @@ sleepModel <- function(t, x, mu, ichi, params) {
     R1b <- getR1b(A, R1tot, Psi)
     dA <- ichi * (mu - A)
     dR1tot <- Irecep * (R1b - Targc * R1tot)
-    return(c(dA, dR1tot))
+    return(list(c(dA, dR1tot)))
 }

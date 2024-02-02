@@ -4,22 +4,31 @@
 \alias{isStudentAwake}
 \title{Determine if a student is awake}
 \usage{
-isStudentAwake(t, R1bValue, Psi, inSchool, params)
+isStudentAwake(t, S, R1b, Psi, inSchool, params)
 }
 \arguments{
 \item{t}{Time in hours since the start of the week (0 = Sunday at midnight)}
 
-\item{R1bValue}{The current value of the R1b variable in the circadian model}
+\item{S}{The current wake state. 1 if awake, 0 if asleep}
+
+\item{R1b}{The current value of the R1b variable in the circadian model}
 
 \item{Psi}{The current value of the Psi variable in the circadian model}
 
 \item{inSchool}{TRUE if the student is currently in school, FALSE otherwise}
 
-\item{params}{A list containing 'sleepThreshold' and 'socialFactor'}
+\item{params}{A parameter list}
 }
 \value{
 TRUE if the student is awake, FALSE otherwise
 }
 \description{
 Determine if a student is awake
+}
+\details{
+Required parameters in \code{params} are:
+\itemize{
+\item \code{sleepThreshold}: The sleep drive threshold for falling asleep
+\item \code{wakeThreshold}: The sleep drive threshold for waking up
+}
 }
