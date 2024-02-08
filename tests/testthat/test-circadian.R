@@ -59,8 +59,8 @@ test_that(
                  0.5 * 0.5 * (1 - 0) * cos(-0.0026) +
                  0.5 * 0.5 * 0 * (1 - 1) * cos(-0.957756))
     # Test with R = 2, Psi = pi/2
-    expect_equal(amplitudeResponse(2, pi/2, params),
-                 0.5 * 0.5 * (1 - 16) * cos(pi/2 - 0.0026) +
+    expect_equal(amplitudeResponse(2, pi / 2, params),
+                 0.5 * 0.5 * (1 - 16) * cos(pi / 2 - 0.0026) +
                  0.5 * 0.5 * 2 * (1 - 256) * cos(pi - 0.957756))
 })
 

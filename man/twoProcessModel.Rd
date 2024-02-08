@@ -4,12 +4,14 @@
 \alias{twoProcessModel}
 \title{Model combining the circadian and sleep models}
 \usage{
-twoProcessModel(t, x, params)
+twoProcessModel(t, x, light, params)
 }
 \arguments{
 \item{t}{Time in hours since the start of the week (0 = Sunday at midnight)}
 
 \item{x}{Current values of the model variables: R, Psi, N, A, R1tot, and S.}
+
+\item{light}{The light input to the model.}
 
 \item{params}{A list of parameters used in the model.}
 }

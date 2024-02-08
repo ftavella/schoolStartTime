@@ -4,16 +4,14 @@
 \alias{sleepModel}
 \title{Calculates the rate of change of A and R1tot}
 \usage{
-sleepModel(t, x, mu, ichi, params)
+sleepModel(t, x, S, params)
 }
 \arguments{
 \item{t}{Time in hours since the start of the week (0 = Sunday at midnight)}
 
 \item{x}{Current state}
 
-\item{mu}{ODE parameter}
-
-\item{ichi}{ODE parameter}
+\item{S}{The current wakefulness state. 1 for awake, 0 for asleep.}
 
 \item{params}{A list of additional parameters including Irecep and Targc.}
 }

@@ -1,33 +1,3 @@
-#' Determine if a student is awake
-#'
-#' @param t Time in hours since the start of the week (0 = Sunday at midnight)
-#' @param S The current wake state. 1 if awake, 0 if asleep
-#' @param R1b The current value of the R1b variable in the circadian model
-#' @param Psi The current value of the Psi variable in the circadian model
-#' @param inSchool TRUE if the student is currently in school, FALSE otherwise
-#' @param params A parameter list
-#' @return TRUE if the student is awake, FALSE otherwise
-#' @details
-#' Required parameters in `params` are:
-#' - `sleepThreshold`: The sleep drive threshold for falling asleep
-#' - `wakeThreshold`: The sleep drive threshold for waking up
-#' @export
-isStudentAwake <- function(t, S, R1b, Psi, inSchool, params) {
-    if (inSchool) {
-        return(TRUE)
-    }
-    currentSleepDrive <- sleepDrive(R1b, Psi, params)
-    sleepThreshold <- params[["sleepThreshold"]]
-    wakeThreshold <- params[["wakeThreshold"]]
-    if (currentSleepDrive < wakeThreshold) {
-        return(TRUE)
-    } else if (currentSleepDrive > sleepThreshold) {
-        return(FALSE)
-    } else {
-        return(as.logical(S))
-    }
-}
-
 #' Check if a given time is within a school day
 #'
 #' @param t Time in hours since the start of the week (0 = Sunday at midnight)

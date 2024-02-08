@@ -1,13 +1,13 @@
-#' Calculate the sleep drive
+#' Calculate the R1b value based on A, R1tot, and Psi
 #'
-#' @param R1b The current value of the R1b variable in the circadian model
-#' @param Psi The current value of the Psi variable in the circadian model
-#' @param params A list containing 'sleepDriveSlope'
-#' @return The calculated sleep drive
+#' @param A Numeric, the value of A
+#' @param R1tot Numeric, the total value of R1
+#'
+#' @return Numeric, the calculated R1b value
 #' @export
-sleepDrive <- function(R1b, Psi, params) {
-    slope <- params[["sleepDriveSlope"]]
-    R1b - slope * cos(Psi)
+getR1b <- function(A, R1tot) {
+    r1totSqrtTerm = sqrt((A + R1tot + 4.0) ^ 2 - 4 * A * R1tot)
+    return(0.5 * (A + R1tot + 4 - r1totSqrtTerm))
 }
 
 #' Calculate the sleep parameters for the current wakefulness state
@@ -29,19 +29,25 @@ sleepParameters <- function(t, isAwake, params) {
 #'
 #' @param t Time in hours since the start of the week (0 = Sunday at midnight)
 #' @param x Current state
-#' @param mu ODE parameter
-#' @param ichi ODE parameter
+#' @param S The current wakefulness state. 1 for awake, 0 for asleep.
 #' @param params A list of additional parameters including Irecep and Targc.
 #'
 #' @return A vector containing the rate of change of A and R1tot.
-#' @export
-sleepModel <- function(t, x, mu, ichi, params) {
-    Psi <- x[2]
-    A <- x[4]
-    R1tot <- x[5]
+#' @expor
+sleepModel <- function(t, x, S, params) {
+    # State variables
+    A <- x[1]
+    R1tot <- x[2]
+    # Fixed parameters
     Irecep <- params[["Irecep"]]
     Targc <- params[["targc"]]
-    R1b <- getR1b(A, R1tot, Psi)
+    # Dynamical parameters
+    isAwake <- as.logical(S)
+    currentSleepParameters <- sleepParameters(t, isAwake, params)
+    mu <- currentSleepParameters[1]
+    ichi <- currentSleepParameters[2]
+    # Calculate the rate of change of A and R1tot
+    R1b <- getR1b(A, R1tot)
     dA <- ichi * (mu - A)
     dR1tot <- Irecep * (R1b - Targc * R1tot)
     return(list(c(dA, dR1tot)))
