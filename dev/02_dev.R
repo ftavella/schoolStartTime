@@ -20,10 +20,7 @@ attachment::att_amend_desc()
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module(name = "shiny", with_test = TRUE)
-golem::add_module(name = "deSolve", with_test = TRUE)
-golem::add_module(name = "tidyverse", with_test = TRUE)
-golem::add_module(name = "ggplot2", with_test = TRUE)
+golem::add_module(name = "simulation_plot", with_test = TRUE)
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
@@ -39,7 +36,7 @@ golem::add_sass_file("custom")
 
 ## Add internal datasets ----
 ## If you have data in your package
-usethis::use_data_raw(name = "my_dataset", open = FALSE)
+usethis::use_data_raw(name = "default_parameters", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create
