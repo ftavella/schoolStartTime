@@ -16,7 +16,10 @@
 ## Dependencies ----
 ## Amend DESCRIPTION with dependencies read from package code parsing
 ## install.packages('attachment') # if needed.
+usethis::use_package("deSolve")
+usethis::use_package("stats")
 attachment::att_amend_desc()
+
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -36,11 +39,16 @@ golem::add_sass_file("custom")
 
 ## Add internal datasets ----
 ## If you have data in your package
-usethis::use_data_raw(name = "default_parameters", open = FALSE)
+usethis::use_data_raw(name = "defaultParameters", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create
-usethis::use_test("app")
+usethis::use_test("light")
+usethis::use_test("school")
+usethis::use_test("circadian")
+usethis::use_test("sleep")
+usethis::use_test("twoprocess")
+usethis::use_test("simulation")
 
 # Documentation
 

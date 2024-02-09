@@ -8,10 +8,14 @@ Description: Find the optimal school start time using mathematical
 License: MIT + file LICENSE
 URL: https://github.com/ftavella/schoolStartTime
 BugReports: https://github.com/ftavella/schoolStartTime/issues
+Depends: 
+    R (>= 2.10)
 Imports: 
     config (>= 0.3.2),
+    deSolve,
     golem (>= 0.4.1),
-    shiny (>= 1.7.4)
+    shiny (>= 1.7.4),
+    stats
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
