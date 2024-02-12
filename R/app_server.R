@@ -6,4 +6,5 @@
 #' @noRd
 app_server <- function(input, output, session) {
   # Your application server logic
+  mod_circadian_simulation_plot_server("circadian_simulation_plot_1")
 }

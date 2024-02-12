@@ -13,7 +13,9 @@ Depends:
 Imports: 
     config (>= 0.3.2),
     deSolve,
+    ggplot2,
     golem (>= 0.4.1),
+    rlang,
     shiny (>= 1.7.4),
     stats
 Suggests: 
