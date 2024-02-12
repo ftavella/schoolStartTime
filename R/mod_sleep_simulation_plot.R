@@ -14,13 +14,16 @@ mod_sleep_simulation_plot_ui <- function(id){
   tagList(
     titlePanel("Sleep simulation"),
     fluidRow(
-      column(4,
+      column(3,
         sliderInput(ns("simulation_time"), "Simulation time (hrs)", 1, 1000, 72),
       ),
-      column(4,
+      column(3,
+        sliderInput(ns("time_step"), "Simulation time step (hrs)", 0.001, 1, 0.1),
+      ),
+      column(3,
         sliderInput(ns("sleep_start"), "Sleep start time (hrs)", 0, 24, 23),
       ),
-      column(4,
+      column(3,
         sliderInput(ns("sleep_end"), "Sleep end time (hrs)", 0, 24, 7),
       ),
     ),
@@ -35,7 +38,7 @@ mod_sleep_simulation_plot_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     output$sleep_plot <- renderPlot({
-      timeArray <- seq(0, input$simulation_time, length.out = 1000)
+      timeArray <- seq(0, input$simulation_time, by = input$time_step)
       initialCondition <- c(A = 767.7, R1tot = 584.2)
       wakeCondition <- timeArray %% 24 >= input$sleep_end &
                        timeArray %% 24 <= input$sleep_start

@@ -14,13 +14,16 @@ mod_circadian_simulation_plot_ui <- function(id){
   tagList(
     titlePanel("Circadian simulation"),
     fluidRow(
-      column(4,
+      column(3,
         sliderInput(ns("simulation_time"), "Simulation time (hrs)", 1, 1000, 72),
       ),
-      column(4,
+      column(3,
+        sliderInput(ns("time_step"), "Simulation time step (hrs)", 0.001, 1, 0.1),
+      ),
+      column(3,
         sliderInput(ns("light_start"), "Light start time (hrs)", 0, 24, 8),
       ),
-      column(4,
+      column(3,
         sliderInput(ns("light_end"), "Light end time (hrs)", 0, 24, 22),
       ),
     ),
@@ -35,7 +38,7 @@ mod_circadian_simulation_plot_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     output$circadian_plot <- renderPlot({
-      timeArray <- seq(0, input$simulation_time, length.out = 1000)
+      timeArray <- seq(0, input$simulation_time, by = input$time_step)
       initialCondition <- c(R = 0.8, Psi = 2.5, n = 0.8)
       lightCondition <- timeArray %% 24 >= input$light_start &
                         timeArray %% 24 <= input$light_end

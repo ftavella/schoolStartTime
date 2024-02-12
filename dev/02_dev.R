@@ -27,6 +27,7 @@ attachment::att_amend_desc()
 ## Create a module infrastructure in R/
 golem::add_module(name = "circadian_simulation_plot", with_test = TRUE)
 golem::add_module(name = "sleep_simulation_plot", with_test = TRUE)
+golem::add_module(name = "two_process_simulation_plot", with_test = TRUE)
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*

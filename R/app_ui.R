@@ -10,9 +10,10 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("schoolStartTime"),
+      h1("Determine optimal school start time"),
       mod_circadian_simulation_plot_ui("circadian_simulation_plot_1"),
-      mod_sleep_simulation_plot_ui("sleep_simulation_plot_1")
+      mod_sleep_simulation_plot_ui("sleep_simulation_plot_1"),
+      mod_two_process_simulation_plot_ui("two_process_simulation_plot_1")
     )
   )
 }
