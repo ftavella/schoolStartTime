@@ -11,7 +11,8 @@ app_ui <- function(request) {
     # Your application UI logic
     fluidPage(
       h1("schoolStartTime"),
-      mod_circadian_simulation_plot_ui("circadian_simulation_plot_1")
+      mod_circadian_simulation_plot_ui("circadian_simulation_plot_1"),
+      mod_sleep_simulation_plot_ui("sleep_simulation_plot_1")
     )
   )
 }
