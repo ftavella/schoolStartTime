@@ -30,6 +30,7 @@ mod_two_process_simulation_plot_ui <- function(id){
     plotOutput(ns("two_process_plot")),
     plotOutput(ns("sleep_drive_plot")),
     plotOutput(ns("sleep_state_plot")),
+    plotOutput(ns("school_state_plot")),
   )
 }
 
@@ -92,6 +93,17 @@ mod_two_process_simulation_plot_server <- function(id){
       data <- dataSim()
       ggplot() +
         geom_line(data=data, aes(x=.data$time, y=.data$S)) +
+        coord_cartesian(xlim=c(data$time[1], data$time[length(data$time)]))
+    })
+
+    output$school_state_plot <- renderPlot({
+      data <- dataSim()
+      schoolStart <- defaultParameters["schoolStart"]
+      schoolDuration <- defaultParameters["schoolDuration"]
+      school_state <- isWithinSchoolHours(data$time, schoolStart, schoolDuration)
+      plotDataFrame <- data.frame(time=data$time, school_state=as.numeric(school_state))
+      ggplot() +
+        geom_line(data=plotDataFrame, aes(x=.data$time, y=.data$school_state)) +
         coord_cartesian(xlim=c(data$time[1], data$time[length(data$time)]))
     })
   })
