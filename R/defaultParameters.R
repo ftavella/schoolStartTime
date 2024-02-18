@@ -3,29 +3,7 @@
 #' The named vector contains parameters for the circadian, sleep, and two
 #' process models plus parameters for the light functions.
 #'
-#' @details 
-#' - 'A_1', 'A_2', 'sigma', 'beta_L1', 'beta_L2', 'P', 'G', 'I_0', 'delta', 'alpha_0', 'K', 'tau', 'gamma', 'beta_1': Forger99 variables for light ODEs (see reference below)
-#'   *Forger, D. B., Jewett, M. E., & Kronauer, R. E. (1999). A simpler model of the human circadian pacemaker. Journal of 
-#'        Biological Rhythms, 14(6), 533–538. https://doi.org/10.1177/074873099129000867* 
-#' - 'awakeMu': Mu for awake state  
-#' - 'awakeChi': Chi for awake state
-#' - 'asleepMu': Mu for asleep state
-#' - 'asleepChi': Chi for asleep state
-#' - 'Irecep': Variable for calculation of rate of change in sleepModel
-#' - 'targc': Variable for calculation of rate of change in sleepModel
-#' - 'wakeThreshold': The point at which you wake up 
-#' - 'sleepThreshold': The point at which you go to sleep
-#' - 'sleepDriveSlope': The value of the slope of the sleep drive to be used in calculating the sleep drive model
-#' - 'schoolStart': The start time of school (hours since midnight)
-#' - 'schoolDuration': The time between when school begins and ends (hours)
-#' - 'baselineLight': The amount of baseline light (lux)
-#' - 'schoolBrightness': The light exposure in school (lux) 
-#' - 'lightSlope': The slope of the light exposure curve (1/hours)
-#' - 'lightRiseTime': The time of day when natural light exposure begins (hours)
-#' - 'lightFallTime': The time of day when natural light exposure ends (hours)
-#' - 'lightAmplitude': The amplitude of the light exposure curve (lux)
-#' - 'lightBaseline': The baseline light exposure (lux)
-#' 
+
 #' @format A named vector with the following parameters
 #' \describe{
 #'   \item{A_1}{Circadian parameter}
