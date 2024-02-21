@@ -100,7 +100,9 @@ mod_two_process_simulation_plot_server <- function(id){
       data <- dataSim()
       schoolStart <- defaultParameters["schoolStart"]
       schoolDuration <- defaultParameters["schoolDuration"]
-      school_state <- isWithinSchoolHours(data$time, schoolStart, schoolDuration)
+      school_hours <- isWithinSchoolHours(data$time, schoolStart, schoolDuration)
+      school_day <- isSchoolDay(data$time)
+      school_state <- school_hours & school_day
       plotDataFrame <- data.frame(time=data$time, school_state=as.numeric(school_state))
       ggplot() +
         geom_line(data=plotDataFrame, aes(x=.data$time, y=.data$school_state)) +

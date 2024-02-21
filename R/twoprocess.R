@@ -96,24 +96,3 @@ thresholdCrossingEvent <- function(t, x, params) {
   # Return the same state with the wake state updated
   return(c(R, Psi, n, A, R1tot, newS))
 }
-
-#' Function to calculate the distance to the wake and sleep thresholds
-#'
-#' @param t Time in hours since the start of the week (0 = Sunday at midnight)
-#' @param x The current state of the system.
-#' @param params The parameters of the system.
-#'
-#' @return Array with the distance to wake and sleep thresholds respectively.
-#' @export
-distanceToThreshold <- function(t, x, params) {
-  Psi <- x[2]
-  A <- x[4]
-  R1tot <- x[5]
-  sleepThreshold <- params[["sleepThreshold"]]
-  wakeThreshold <- params[["wakeThreshold"]]
-  R1b <- getR1b(A, R1tot)
-  currentSleepDrive <- sleepDrive(R1b, Psi, params)
-  wakeDistance <- currentSleepDrive - wakeThreshold
-  sleepDistance <- currentSleepDrive - sleepThreshold
-  return(c(wakeDistance, sleepDistance))
-}

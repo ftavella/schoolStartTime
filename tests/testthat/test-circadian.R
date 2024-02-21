@@ -66,3 +66,4 @@ test_that(
 
 ## Test for circaModel function
 # TODO: Write tests
+
