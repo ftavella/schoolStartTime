@@ -1,8 +1,10 @@
 Package: schoolStartTime
 Title: Optimizing school start times using circadian science
 Version: 0.0.0.9000
-Authors@R: 
-    person("Arjun", "Alva", , "306600@aaps.k12.mi.us", role = c("cre", "aut"))
+Authors@R: c(
+    person("Arjun", "Alva", , "306600@aaps.k12.mi.us", role = c("cre", "aut")),
+    person("Franco", "Tavella", , "ftavella@umich.edu", role = c("aut")),
+    person("Olivia", "Walch", , "olivia@arcascope.com", role = c("aut")))
 Description: Find the optimal school start time using mathematical
     modeling.
 License: MIT + file LICENSE
