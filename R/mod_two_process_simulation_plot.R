@@ -20,11 +20,14 @@ mod_two_process_simulation_plot_ui <- function(id){
       column(3,
         sliderInput(ns("time_step"), "Simulation time step (hrs)", 0.001, 1, 0.1),
       ),
-      column(3,
+      column(2,
         sliderInput(ns("light_start"), "Light start time (hrs)", 0, 24, 7),
       ),
-      column(3,
+      column(2,
         sliderInput(ns("light_end"), "Light end time (hrs)", 0, 24, 22),
+      ),
+      column(2,
+        sliderInput(ns("school_start"), "School start time (hrs)", 5, 11, 8),
       ),
     ),
     plotOutput(ns("two_process_plot")),
@@ -44,21 +47,25 @@ mod_two_process_simulation_plot_server <- function(id){
       timeArray <- seq(0, input$simulation_time, by = input$time_step)
       initialCondition <- c(R = 0.8, Psi = 2.5, n = 0.8,
                             A = 760, R1tot = 580, S = 0)
+      parameters <- defaultParameters
+      parameters["schoolStart"] <- input$school_start
 
       lightCondition <- timeArray %% 24 >= input$light_start &
                         timeArray %% 24 <= input$light_end
       lightArray <- ifelse(lightCondition, 1000, 0)
       result <- simulateTwoProcessModel(timeArray, lightArray, initialCondition,
-                                        defaultParameters)
+                                        parameters)
       data <- data.frame(result)
       data$circadian_state <- data$R * cos(data$Psi)
       R1b <- getR1b(data$A, data$R1tot)
-      data$sleep_drive <- sleepDrive(R1b, data$Psi, defaultParameters)
-      data
+      data$sleep_drive <- sleepDrive(R1b, data$Psi, parameters)
+      simResult <- list(data = data, parameters = parameters)
+      simResult
     })
 
     output$two_process_plot <- renderPlot({
-      data <- dataSim()
+      simResult <- dataSim()
+      data <- simResult$data
       # Shaded light regions
       shade_light <- data.frame(
         from=seq(input$light_start, 24 * floor(input$simulation_time / 24) + input$light_start, 24),
@@ -74,14 +81,16 @@ mod_two_process_simulation_plot_server <- function(id){
     })
 
     output$sleep_drive_plot <- renderPlot({
-      data <- dataSim()
+      simResult <- dataSim()
+      data <- simResult$data
+      parameters <- simResult$parameters
       ggplot() +
         # TODO: Add shaded regions of sleep
         # geom_rect(
         #   data=shade_sleep,
         #   aes(xmin=.data$from, xmax=.data$to, ymin=-Inf, ymax=Inf),
         #   alpha=0.4) +
-        geom_hline(yintercept=defaultParameters["wakeThreshold"],
+        geom_hline(yintercept=parameters["wakeThreshold"],
                    linetype="longdash", color="red") +
         geom_hline(yintercept=defaultParameters["sleepThreshold"],
                    linetype="longdash", color="red") +
@@ -90,16 +99,19 @@ mod_two_process_simulation_plot_server <- function(id){
     })
 
     output$sleep_state_plot <- renderPlot({
-      data <- dataSim()
+      simResult <- dataSim()
+      data <- simResult$data
       ggplot() +
         geom_line(data=data, aes(x=.data$time, y=.data$S)) +
         coord_cartesian(xlim=c(data$time[1], data$time[length(data$time)]))
     })
 
     output$school_state_plot <- renderPlot({
-      data <- dataSim()
-      schoolStart <- defaultParameters["schoolStart"]
-      schoolDuration <- defaultParameters["schoolDuration"]
+      simResult <- dataSim()
+      data <- simResult$data
+      parameters <- simResult$parameters
+      schoolStart <- parameters["schoolStart"]
+      schoolDuration <- parameters["schoolDuration"]
       school_state <- isWithinSchoolHours(data$time, schoolStart, schoolDuration)
       plotDataFrame <- data.frame(time=data$time, school_state=as.numeric(school_state))
       ggplot() +
