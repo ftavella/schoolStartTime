@@ -18,14 +18,14 @@ twoProcessModel <- function(t, x, light, params) {
   # Circadian model
   xCircadian <- c(R, Psi, n)
   dC <- circadianModel(t, xCircadian, currentLight, params)
-  dR <- dC[1]
-  dPsi <- dC[2]
-  dN <- dC[3]
+  dR <- unlist(dC[1])
+  dPsi <- unlist(dC[2])
+  dN <- unlist(dC[3])
   # Sleep model
   xSleep <- c(A, R1tot)
   dH <- sleepModel(t, xSleep, S, params)
-  dA <- dH[1]
-  dR1tot <- dH[2]
+  dA <- unlist(dH[1])
+  dR1tot <- unlist(dH[2])
   # Return the right hand side of the ODEs
   return(list(c(dR, dPsi, dN, dA, dR1tot, 0)))
 }
