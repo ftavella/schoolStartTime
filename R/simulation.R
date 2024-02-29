@@ -40,7 +40,7 @@ simulateSleepModel <- function(timeArray, wakeArray, initialCondition, params) {
     return(dH)
   }
   out <- deSolve::lsode(times = timeArray, y = initialCondition,
-               func = sleepWrapped, parms = params)
+                        func = sleepWrapped, parms = params)
   return(out)
 }
 
@@ -63,7 +63,6 @@ simulateTwoProcessModel <- function(timeArray, lightArray, initialCondition, par
   }
   out <- deSolve::lsode(times = timeArray, y = initialCondition,
                func = twoProcessWrapped, parms = params,
-               rootfun = distanceToThreshold,
-               events = list(func = thresholdCrossingEvent, root = TRUE))
+               events = list(func = thresholdCrossingEvent, time = timeArray))
   return(out)
 }

@@ -64,5 +64,13 @@ test_that(
                    0.5 * 0.5 * 2 * (1 - 256) * cos(pi - 0.957756))
   })
 
-## Test for circaModel function
-# TODO: Write tests
+## Test for circadianModel function
+t <- 0
+x <- c(0.5, 1, 0.5)
+I <- 1
+dxdt <- circadianModel(t, x, I, defaultParameters)
+test_that("circadianModel() returns the correct values", {
+  expect_equal(dxdt[[1]][1], 0.0030813912)
+  expect_equal(dxdt[[1]][2], 0.260328966)
+  expect_equal(dxdt[[1]][3], -0.224839159)
+})
