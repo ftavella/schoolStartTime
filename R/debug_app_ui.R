@@ -1,16 +1,19 @@
-#' The application User-Interface
+#' The debug application User-Interface
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
-app_ui <- function(request) {
+debug_app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
       h1("Determine optimal school start time"),
+      mod_circadian_simulation_plot_ui("circadian_simulation_plot_1"),
+      mod_sleep_simulation_plot_ui("sleep_simulation_plot_1"),
+      mod_two_process_simulation_plot_ui("two_process_simulation_plot_1")
     )
   )
 }
@@ -33,7 +36,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "schoolStartTime"
+      app_title = "debug schoolStartTime"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
