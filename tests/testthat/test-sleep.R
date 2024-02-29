@@ -25,7 +25,30 @@ test_that("sleepDrive() returns the correct values", {
 })
 
 ## Test the sleepParameters() function
-# TODO: Write tests
+params <- c(
+  awakeChi = 1,
+  asleepChi = 2,
+  awakeMu = 3,
+  asleepMu = 4
+)
+awake_values <- sleepParameters(TRUE, params)
+test_that("sleepParameters() returns the correct values for awake", {
+  expect_equal(awake_values[1], 3)
+  expect_equal(awake_values[2], 1)
+})
+asleep_values <- sleepParameters(FALSE, params)
+test_that("sleepParameters() returns the correct values for asleep", {
+  expect_equal(asleep_values[1], 4)
+  expect_equal(asleep_values[2], 0.5)
+})
 
 ## Test the sleepModel() function
-# TODO: Write tests
+params <- defaultParameters
+t <- 0
+x <- c(1, 1)
+S <- 1
+dxdt <- sleepModel(t, x, S, params)
+test_that("sleepModel() returns the correct values", {
+  expect_equal(dxdt[[1]][1], 47.772277228)
+  expect_equal(dxdt[[1]][2], -0.00273583204)
+})

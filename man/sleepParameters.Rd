@@ -4,11 +4,9 @@
 \alias{sleepParameters}
 \title{Calculate the sleep parameters for the current wakefulness state}
 \usage{
-sleepParameters(t, isAwake, params)
+sleepParameters(isAwake, params)
 }
 \arguments{
-\item{t}{Time in hours since the start of the week (0 = Sunday at midnight)}
-
 \item{isAwake}{Logical, whether the student is awake.}
 
 \item{params}{List, a list of parameters including:

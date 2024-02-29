@@ -12,7 +12,6 @@ getR1b <- function(A, R1tot) {
 
 #' Calculate the sleep parameters for the current wakefulness state
 #'
-#' @param t Time in hours since the start of the week (0 = Sunday at midnight)
 #' @param isAwake Logical, whether the student is awake.
 #' @param params List, a list of parameters including:
 #'   - awakeChi, asleepChi: Chi for awake and asleep states
@@ -20,7 +19,7 @@ getR1b <- function(A, R1tot) {
 #'
 #' @return Numeric vector, the calculated mu, ichi, and light
 #' @export
-sleepParameters <- function(t, isAwake, params) {
+sleepParameters <- function(isAwake, params) {
   ichi <- 1.0 / params[[if (isAwake) "awakeChi" else "asleepChi"]]
   mu <- params[[if (isAwake) "awakeMu" else "asleepMu"]]
   return(c(mu, ichi))
@@ -44,7 +43,7 @@ sleepModel <- function(t, x, S, params) {
   Targc <- params[["targc"]]
   # Dynamical parameters
   isAwake <- as.logical(S)
-  currentSleepParameters <- sleepParameters(t, isAwake, params)
+  currentSleepParameters <- sleepParameters(isAwake, params)
   mu <- currentSleepParameters[1]
   ichi <- currentSleepParameters[2]
   # Calculate the rate of change of A and R1tot
