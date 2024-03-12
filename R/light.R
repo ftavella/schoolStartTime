@@ -43,3 +43,31 @@ lightExposure <- function(t, isAwake, inSchool, params) {
   }
   return(light)
 }
+
+#' Calculate sunrise and sunset times for a given location and date
+#'
+#' @description
+#' `sunriseSunset()` calculates the time of sunrise and sunset for a given
+#' location and date. The function uses the `suncalc` package to calculate
+#' the times based on the latitude and longitude of the location and the date.
+#'
+#' @param date A date object
+#' @param latitude Latitude of the location
+#' @param longitude Longitude of the location
+#'
+#' @return A list with two elements: `sunrise` and `sunset`, each containing
+#' the time of the respective event as a floating point number between 0 and 24
+#' @export
+sunriseSunset <- function(date, latitude, longitude) {
+  times <- suncalc::getSunlightTimes(date, latitude, longitude)
+  sunriseUTC <- times$sunrise
+  sunsetUTC <- times$sunset
+  # Convert to local time
+  localTZ <- lutz::tz_lookup_coords(latitude, longitude, 
+                                    method = "fast", warn = FALSE)
+  sunrise <- as.POSIXlt(lubridate::with_tz(sunriseUTC, tzone = localTZ))
+  sunset <- as.POSIXlt(lubridate::with_tz(sunsetUTC, tzone = localTZ))
+  sunriseTime <- sunrise$hour + sunrise$min / 60
+  sunsetTime <- sunset$hour + sunset$min / 60
+  return(list(sunrise = sunriseTime, sunset = sunsetTime))
+}
