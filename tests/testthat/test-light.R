@@ -1,3 +1,4 @@
+# Test lightExposure()
 twoDays <- seq(0, 48, length.out = 100)
 rise <- tanh(0.6 * ((twoDays %% 24) - 8.0))
 fall <- tanh(0.6 * ((twoDays %% 24) - 17.0))
@@ -27,5 +28,20 @@ test_that(
     expect_equal(calculatedLightAsleepSchool, expectedLightAsleep)
     expect_equal(calculatedLightAsleepNoSchool, expectedLightAsleep)
 
+  }
+)
+
+# Test sunriseSunset()
+test_that(
+  "sunriseSunset() works as expected", {
+    date <- as.Date("2024-03-12")
+    # Ann Arbor, MI. Go Blue!
+    latitude <- 42.2661
+    longitude <- -83.7146
+    expectedSunrise <- 7.86
+    expectedSunset <- 19.65
+    result <- sunriseSunset(date, latitude, longitude)
+    expect_equal(result$sunrise, expectedSunrise, tolerance = 0.01)
+    expect_equal(result$sunset, expectedSunset, tolerance = 0.01)
   }
 )

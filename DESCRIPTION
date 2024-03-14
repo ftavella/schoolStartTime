@@ -15,11 +15,15 @@ Depends:
 Imports: 
     config (>= 0.3.2),
     deSolve,
+    geonames,
     ggplot2,
     golem (>= 0.4.1),
+    lubridate,
+    lutz,
     rlang,
     shiny (>= 1.7.4),
-    stats
+    stats,
+    suncalc
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

@@ -20,6 +20,7 @@ usethis::use_package("deSolve")
 usethis::use_package("stats")
 usethis::use_package("rlang")
 usethis::use_package("ggplot2")
+usethis::use_package("geonames")
 attachment::att_amend_desc()
 
 
@@ -28,6 +29,7 @@ attachment::att_amend_desc()
 golem::add_module(name = "circadian_simulation_plot", with_test = TRUE)
 golem::add_module(name = "sleep_simulation_plot", with_test = TRUE)
 golem::add_module(name = "two_process_simulation_plot", with_test = TRUE)
+golem::add_module(name = "light_exposure_per_city_plot", with_test = TRUE)
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
@@ -44,6 +46,7 @@ golem::add_sass_file("custom")
 ## Add internal datasets ----
 ## If you have data in your package
 usethis::use_data_raw(name = "defaultParameters", open = FALSE)
+usethis::use_data_raw(name = "worldCities", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create
